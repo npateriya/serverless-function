@@ -1,0 +1,9 @@
+package: github.com/npateriya/serverless-agent
+import:
+- package: github.com/docker-exec/dexec
+  version: ^1.0.7
+  subpackages:
+  - cli
+  - dexec
+  - util
+- package: github.com/fsouza/go-dockerclient
