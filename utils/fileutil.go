@@ -46,6 +46,23 @@ func DownloadFile(basedir string, urlstr string, reload bool) (filepath string, 
 	return filepath, nil
 }
 
+func WriteFile(basedir string, filename string, data []byte, rewrite bool) (filepath string, err error) {
+	filepath = fmt.Sprintf("%s/%s", basedir, filename)
+	// Create the file
+	fp, err := os.Create(filepath)
+	if err != nil {
+		return filepath, err
+	}
+	defer fp.Close()
+
+	_, err = fp.Write(data)
+	if err != nil {
+		return filepath, err
+	}
+	return filepath, nil
+
+}
+
 func getFilename(urlstring string) (string, error) {
 	u, err := url.Parse(urlstring)
 	if err != nil {

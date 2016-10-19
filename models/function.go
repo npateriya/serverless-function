@@ -12,7 +12,7 @@ type Function struct {
 	SourceURL string `json:"sourceurl,omitempty"`
 
 	// Source code as strng blob
-	SourceBlob string `json:"sourceblob,omitempty"`
+	SourceBlob []byte `json:"sourceblob,omitempty"`
 
 	// Language identifier example golang, python, php etc
 	SourceLang string `json:"sourcelang, omitempty"`

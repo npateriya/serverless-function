@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 
 	"github.com/docker-exec/dexec/dexec"
 	"github.com/docker-exec/dexec/util"
@@ -18,6 +19,12 @@ import (
 func RunContainer(funcData *models.Function) int {
 	if len(funcData.Type) > 0 && funcData.Type == models.FUNCTION_TYPE_URL {
 		filepath, err := utils.DownloadFile(funcData.CacheDir, funcData.SourceURL, true)
+		if err != nil {
+			log.Fatal(err)
+		}
+		funcData.SourceFile = filepath
+	} else if len(funcData.Type) > 0 && funcData.Type == models.FUNCTION_TYPE_BLOB {
+		filepath, err := utils.WriteFile(funcData.CacheDir, path.Base(funcData.SourceFile), funcData.SourceBlob, true)
 		if err != nil {
 			log.Fatal(err)
 		}
