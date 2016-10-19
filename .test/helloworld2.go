@@ -1,9 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strings"
+)
 
 func main() {
-    for i:=0; i < 100; i = i+1 {
-       fmt.Printf("%s\n", "hello world")
+    for i:=0; i < 1; i = i+1 {
+       fmt.Printf("%s\n",  strings.ToUpper(os.Args[1]))
     }
 }
