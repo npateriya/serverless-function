@@ -5,11 +5,18 @@ import (
 	"log"
 	_ "os"
 
+	docker "github.com/fsouza/go-dockerclient"
 	"github.com/npateriya/serverless-agent/connectors"
 	"github.com/npateriya/serverless-agent/models"
 )
 
 func main() {
+
+	client, err := docker.NewClientFromEnv()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	//	functionArgs := &models.Function{
 	//		Type: models.FUNCTION_TYPE_FILE,
 	//		//SourceURL:  ".test/helloworld2.go",
@@ -22,7 +29,7 @@ func main() {
 	//		RunParams: []string{"hello world"},
 	//		//Version:"",
 	//	}
-	//	connectors.RunDexecContainer(functionArgs)
+	//	connectors.RunDexecContainer(functionArgs,client)
 
 	//	functionArgsURL := &models.Function{
 	//		Type: models.FUNCTION_TYPE_URL,
@@ -39,7 +46,7 @@ func main() {
 	//		CacheDir: ".test",
 	//	}
 
-	//	connectors.RunContainer(functionArgsURL)
+	//	connectors.RunContainer(functionArgsURL,client)
 
 	srcBlob, err := ioutil.ReadFile(".test/helloworld2.go")
 	if err != nil {
@@ -57,5 +64,5 @@ func main() {
 		CacheDir: ".test",
 	}
 
-	connectors.RunContainer(functionArgsBlob)
+	connectors.RunContainer(functionArgsBlob, client)
 }

@@ -11,12 +11,12 @@ import (
 
 	"github.com/docker-exec/dexec/dexec"
 	"github.com/docker-exec/dexec/util"
-	"github.com/fsouza/go-dockerclient"
+	docker "github.com/fsouza/go-dockerclient"
 	"github.com/npateriya/serverless-agent/models"
 	"github.com/npateriya/serverless-agent/utils"
 )
 
-func RunContainer(funcData *models.Function) int {
+func RunContainer(funcData *models.Function, client *docker.Client) int {
 	if len(funcData.Type) > 0 && funcData.Type == models.FUNCTION_TYPE_URL {
 		filepath, err := utils.DownloadFile(funcData.CacheDir, funcData.SourceURL, true)
 		if err != nil {
@@ -31,22 +31,22 @@ func RunContainer(funcData *models.Function) int {
 		funcData.SourceFile = filepath
 	}
 	//fmt.Printf("%+v", funcData)
-	return RunDexecContainer(funcData)
+	return RunDexecContainer(funcData, client)
 }
 
 // RunDexecContainer runs an anonymous Docker container with a Docker Exec
 // image, mounting the specified sources and includes and passing the
 // list of sources and arguments to the entrypoint.
-func RunDexecContainer(funcData *models.Function) int {
+func RunDexecContainer(funcData *models.Function, client *docker.Client) int {
 
 	// Removing clean image and update image option for now. Add back if needed
 	// Ideally these need to be seperate functions
 	updateImage := false
 
-	client, err := docker.NewClientFromEnv()
-	if err != nil {
-		log.Fatal(err)
-	}
+	//	client, err := docker.NewClientFromEnv()
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
 
 	dexecImage, err := ImageFromOptions(funcData)
 	if err != nil {
