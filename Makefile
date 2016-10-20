@@ -1,7 +1,6 @@
+SRC=php
 build:
 	go build
-test:
-	go run .test/helloworld.go 
 glide-install:
 	glide install --strip-vcs --strip-vendor
 glide-dedup:
@@ -9,7 +8,7 @@ glide-dedup:
 glide-update:
 	glide update
 
-curl-test-php:
+curl-test:
 	echo "Source code running from below URL"
 	curl -s "https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/php/helloworld.php"
 	echo;echo "Running above source codei as function"
