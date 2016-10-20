@@ -41,26 +41,32 @@ func makeRunCommand() *cobra.Command {
 		Use:   "run",
 		Short: "run serverless function",
 		Long: `
-User can run server les function, function can be dowloaded from a public url 
-or uploaded from local file. Example:
+User can run serverless function, function can be dowloaded from a public url or uploaded from local filesytem.
+It supports function written in most of language, including node, python, go,php, java, scala, perl, c, c++, bash etc. 
+
+Example:
 ./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D
 ./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.py?token=AFQsZRl3aBnfjhRfw3lmxBB-bas0LtQyks5YEkaswA%3D%3D
 ./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.go?token=AFQsZfRwyoQqlcMcKZhwjlNvTqR62MRSks5YEjPewA%3D%3D
 ./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.js?token=AFQsZdzuufjXWtMuZZPpDrZ7Ae8Xn8jUks5YEkZtwA%3D%3D
 ./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D
 
-
-
 ./cli run --file testsource/helloworld.go
 ./cli run --file testsource/helloworld.py
 ./cli run --file testsource/helloworld.js
 ./cli run --file testsource/helloworld.c
 
-
 ./cli run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/toupper.go?token=AFQsZfMzSVPF4cvpV8doC05x9vydaIOsks5YEkbzwA%3D%3D --funcparam lower
 
-serverless cli enable running multiple language function like go, php, python 
-node etc.`,
+Example, running custom python based function:
+>>tee helloworld.py 
+print("hello world")
+
+>>./cli run -f hello.py
+Response from Function execuition:
+StdOut   : hello world
+StdErr   :  
+ExitCode : 0 `,
 		Run: func(cmd *cobra.Command, args []string) {
 			path := "/function"
 			funreq := models.Function{}
@@ -106,7 +112,7 @@ node etc.`,
 
 	runCmd.Flags().StringVarP(&server, "server", "s", "http://localhost:8888", "Agent API server endpoint")
 	runCmd.Flags().StringVarP(&file, "file", "f", "", "Function local file: E.g. .test/helloworld.php")
-	runCmd.Flags().StringVarP(&url, "url", "u", "", "URL to dowload function file E.g https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/php/helloworld.php")
+	runCmd.Flags().StringVarP(&url, "url", "u", "", "URL to dowload function file E.g https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D")
 	runCmd.Flags().StringVarP(&funcparam, "funcparam", "p", "", "Run time function parameters")
 
 	viper.BindPFlag("server", runCmd.Flags().Lookup("server"))
