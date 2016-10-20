@@ -56,19 +56,18 @@ or uploaded from local file. Example:
 ./cli run --file testsource/helloworld.c
 
 
-/cli run --file testsource/helloworld2.go --funcparam lower
+./cli run --file testsource/toupper.go --funcparam lower
 
 serverless cli enable running multiple language function like go, php, python 
 node etc.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			path := "/function"
 			funreq := models.Function{}
-			funreq.CacheDir = ".test" // TODO remove this
+			funreq.CacheDir = ".cache" // TODO remove this
 			funresp := models.FunctionResponse{}
 			restClient := rest.New(rest.Config{Server: server})
 
 			if len(funcparam) > 0 {
-				fmt.Println(funcparam)
 				funreq.RunParams = []string{funcparam}
 			}
 			if len(url) > 0 {
@@ -119,11 +118,12 @@ node etc.`,
 
 func printResponse(funresp *models.FunctionResponse) {
 	if funresp != nil {
-		fmt.Printf("stdout %s \n", funresp.StdOut)
-		fmt.Printf("stderr %s \n", funresp.StdErr)
-		fmt.Printf("ExitCode %d \n", funresp.ExitCode)
+		fmt.Printf("\nResponse from Function execuition:\n")
+		fmt.Printf("StdOut   : %s", funresp.StdOut)
+		fmt.Printf("StdErr   : %s \n", funresp.StdErr)
+		fmt.Printf("ExitCode : %d \n", funresp.ExitCode)
 		if funresp.Error != nil {
-			fmt.Printf("Error %s \n", funresp.Error)
+			fmt.Printf("Error    :%s \n", funresp.Error)
 		}
 	}
 }
