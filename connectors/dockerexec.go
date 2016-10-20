@@ -4,6 +4,7 @@ package connectors
 // customization
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os"
@@ -16,7 +17,7 @@ import (
 	"github.com/npateriya/serverless-agent/utils"
 )
 
-func RunContainer(funcData *models.Function, client *docker.Client) int {
+func RunContainer(funcData *models.Function, client *docker.Client) models.FunctionResponse {
 	if len(funcData.Type) > 0 && funcData.Type == models.FUNCTION_TYPE_URL {
 		filepath, err := utils.DownloadFile(funcData.CacheDir, funcData.SourceURL, true)
 		if err != nil {
@@ -37,20 +38,21 @@ func RunContainer(funcData *models.Function, client *docker.Client) int {
 // RunDexecContainer runs an anonymous Docker container with a Docker Exec
 // image, mounting the specified sources and includes and passing the
 // list of sources and arguments to the entrypoint.
-func RunDexecContainer(funcData *models.Function, client *docker.Client) int {
+func RunDexecContainer(funcData *models.Function, client *docker.Client) models.FunctionResponse {
+	resp := models.FunctionResponse{
+		ExitCode: 0,
+		StdOut:   "",
+		StdErr:   "",
+		Error:    nil,
+	}
 
 	// Removing clean image and update image option for now. Add back if needed
 	// Ideally these need to be seperate functions
 	updateImage := false
 
-	//	client, err := docker.NewClientFromEnv()
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-
 	dexecImage, err := ImageFromOptions(funcData)
 	if err != nil {
-		log.Fatal(err)
+		resp.Error = err
 	}
 
 	dockerImage := fmt.Sprintf("%s:%s", dexecImage.Image, dexecImage.Version)
@@ -60,7 +62,7 @@ func RunDexecContainer(funcData *models.Function, client *docker.Client) int {
 		dexecImage.Version,
 		updateImage,
 		client); err != nil {
-		log.Fatal(err)
+		resp.Error = err
 	}
 
 	// TODO : Add check if SourceFile
@@ -93,14 +95,14 @@ func RunDexecContainer(funcData *models.Function, client *docker.Client) int {
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		resp.Error = err
 	}
 
 	defer func() {
 		if err = client.RemoveContainer(docker.RemoveContainerOptions{
 			ID: container.ID,
 		}); err != nil {
-			log.Fatal(err)
+			resp.Error = err
 		}
 	}()
 
@@ -115,7 +117,7 @@ func RunDexecContainer(funcData *models.Function, client *docker.Client) int {
 			Stream:      true,
 			Stdin:       true,
 		}); err != nil {
-			log.Fatal(err)
+			resp.Error = err
 		}
 	}()
 
@@ -123,20 +125,25 @@ func RunDexecContainer(funcData *models.Function, client *docker.Client) int {
 	if err != nil {
 		log.Fatal(err)
 	}
+	var stdoutbuf bytes.Buffer
+	var stderrbuf bytes.Buffer
 
 	err = client.Logs(docker.LogsOptions{
 		Container:    container.ID,
 		Stdout:       true,
 		Stderr:       true,
-		OutputStream: os.Stdout,
-		ErrorStream:  os.Stderr,
+		OutputStream: &stdoutbuf,
+		ErrorStream:  &stderrbuf,
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		resp.Error = err
 	}
-
-	return code
+	resp.StdOut = stdoutbuf.String()
+	resp.StdErr = stderrbuf.String()
+	resp.ExitCode = code
+	resp.Error = nil
+	return resp
 }
 
 // ImageFromOptions returns an image from a set of functionData.

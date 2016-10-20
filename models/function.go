@@ -6,7 +6,7 @@ type Function struct {
 	Type string `json:"type"`
 
 	// source file: This is final function file cached from url or
-	SourceFile string `json:"sourceurl,omitempty"`
+	SourceFile string `json:"sourcefile,omitempty"`
 
 	// URL for source file, that will be downloaded
 	SourceURL string `json:"sourceurl,omitempty"`
@@ -48,3 +48,14 @@ const (
 	FUNCTION_TYPE_FILE   = "FUNTION_TYPE_FILE"    // Assume file exist locally??
 	FUNCTION_TYPE_DOCKER = "FUNCTION_TYPE_DOCKER" // Exec docker not source
 )
+
+type FunctionResponse struct {
+	// Exit code of docker run
+	ExitCode int `json: "exitcode,omitempty`
+	// std out from container run
+	StdOut string `json: "stdout,omitempty`
+	// std err from container run
+	StdErr string `json: "stderr,omitempty`
+	// Error from connector
+	Error error `json:"stderr,omitempty`
+}

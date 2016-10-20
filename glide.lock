@@ -1,6 +1,8 @@
 hash: 83434173b0cdcd6c28f2ee20b751b80fe03cc0b136fbbe6c17fe873ddbd08f88
-updated: 2016-10-18T18:02:12.881237281-07:00
+updated: 2016-10-19T17:27:02.120170848-07:00
 imports:
+- name: github.com/codegangsta/negroni
+  version: 3f7ce7b928e14ff890b067e5bbbc80af73690a9c
 - name: github.com/docker-exec/dexec
   version: 9b5ac1d303ee5879cca6bfcebd1e3f5eca7a2ad2
   subpackages:
@@ -32,6 +34,10 @@ imports:
   version: f2145db703495b2e525c59662db69a7344b00bb8
 - name: github.com/fsouza/go-dockerclient
   version: 01804dec8a84d0a77e63611f2b62d33e9bb2b64a
+- name: github.com/gorilla/context
+  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
+- name: github.com/gorilla/mux
+  version: 757bef944d0f21880861c2dd9c871ca543023cba
 - name: github.com/hashicorp/go-cleanhttp
   version: ad28ea4487f05916463e2423a55166280e8254b5
 - name: github.com/opencontainers/runc
@@ -39,6 +45,10 @@ imports:
   subpackages:
   - libcontainer/system
   - libcontainer/user
+- name: github.com/rs/cors
+  version: a62a804a8a009876ca59105f7899938a1349f4b3
+- name: github.com/rs/xhandler
+  version: ed27b6fd65218132ee50cd95f38474a3d8a2cd12
 - name: github.com/Sirupsen/logrus
   version: 3ec0642a7fb6488f65b06f9040adc67e3990296a
 - name: golang.org/x/net

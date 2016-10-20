@@ -7,7 +7,9 @@ import (
 )
 
 func main() {
-    for i:=0; i < 1; i = i+1 {
-       fmt.Printf("%s\n",  strings.ToUpper(os.Args[1]))
+    for i := range os.Args{
+       if i != 0 {
+       		fmt.Printf("%s\n",  strings.ToUpper(os.Args[i]))
+      }
     }
 }
