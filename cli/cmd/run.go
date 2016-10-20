@@ -42,7 +42,21 @@ func makeRunCommand() *cobra.Command {
 		Short: "run serverless function",
 		Long: `
 User can run server les function, function can be dowloaded from a public url 
-or uploaded from local file:
+or uploaded from local file. Example:
+./cli  run -u https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/php/helloworld.php
+./cli  run -u https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/python/helloworld.py
+./cli  run -u https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/go/helloworld.go
+./cli  run -u https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/node/helloworld.js
+
+
+
+./cli run --file testsource/helloworld.go
+./cli run --file testsource/helloworld.py
+./cli run --file testsource/helloworld.js
+./cli run --file testsource/helloworld.c
+
+
+/cli run --file testsource/helloworld2.go --funcparam lower
 
 serverless cli enable running multiple language function like go, php, python 
 node etc.`,
@@ -53,6 +67,10 @@ node etc.`,
 			funresp := models.FunctionResponse{}
 			restClient := rest.New(rest.Config{Server: server})
 
+			if len(funcparam) > 0 {
+				fmt.Println(funcparam)
+				funreq.RunParams = []string{funcparam}
+			}
 			if len(url) > 0 {
 				funreq.SourceURL = url
 				funreq.Type = models.FUNCTION_TYPE_URL
@@ -75,7 +93,7 @@ node etc.`,
 				}
 				printResponse(&funresp)
 			} else {
-				fmt.Errorf("Either url or file need be required.")
+				fmt.Println("Either --url or --file is required.")
 			}
 
 		},
@@ -84,7 +102,7 @@ node etc.`,
 	server = viper.GetString("SERVER")
 	file = viper.GetString("FILE")
 	url = viper.GetString("URL")
-	funcparam := viper.GetString("FUNCPARAM")
+	funcparam = viper.GetString("FUNCPARAM")
 
 	runCmd.Flags().StringVarP(&server, "server", "s", "http://localhost:8888", "Agent API server endpoint")
 	runCmd.Flags().StringVarP(&file, "file", "f", "", "Function local file: E.g. .test/helloworld.php")

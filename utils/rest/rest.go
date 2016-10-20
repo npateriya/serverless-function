@@ -9,7 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	_ "log"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -96,7 +96,7 @@ func (c *Client) NewRequest(method string, path string, params map[string]string
 		if e != nil {
 			return
 		}
-		//log.Printf("Payload: %v", string(payload))
+		log.Printf("Payload: %v", string(payload))
 		req, e = http.NewRequest(method, endpoint.String(), bytes.NewReader(payload))
 		if e != nil {
 			return
