@@ -43,10 +43,11 @@ func makeRunCommand() *cobra.Command {
 		Long: `
 User can run server les function, function can be dowloaded from a public url 
 or uploaded from local file. Example:
-./cli  run -u https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/php/helloworld.php
-./cli  run -u https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/python/helloworld.py
-./cli  run -u https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/go/helloworld.go
-./cli  run -u https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/node/helloworld.js
+./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D
+./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.py?token=AFQsZRl3aBnfjhRfw3lmxBB-bas0LtQyks5YEkaswA%3D%3D
+./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.go?token=AFQsZfRwyoQqlcMcKZhwjlNvTqR62MRSks5YEjPewA%3D%3D
+./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.js?token=AFQsZdzuufjXWtMuZZPpDrZ7Ae8Xn8jUks5YEkZtwA%3D%3D
+./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D
 
 
 
@@ -56,7 +57,7 @@ or uploaded from local file. Example:
 ./cli run --file testsource/helloworld.c
 
 
-./cli run --file testsource/toupper.go --funcparam lower
+./cli run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/toupper.go?token=AFQsZfMzSVPF4cvpV8doC05x9vydaIOsks5YEkbzwA%3D%3D --funcparam lower
 
 serverless cli enable running multiple language function like go, php, python 
 node etc.`,
