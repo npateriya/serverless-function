@@ -16,7 +16,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-        srv := server.New()
+	srv := server.New()
 	os.Exit(srv.Run())
 
 }

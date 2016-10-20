@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	docker "github.com/fsouza/go-dockerclient"
-	"github.com/npateriya/serverless-agent/connectors"
 	"github.com/npateriya/serverless-agent/models"
+	"github.com/npateriya/serverless-agent/server/connectors"
 )
 
 type Function []models.Function
