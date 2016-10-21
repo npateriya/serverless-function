@@ -28,7 +28,7 @@ var (
 	server       string
 	file         string
 	url          string
-	funcparam    string
+	funcparam    []string
 	buildimage   string
 	argsbuild    string
 	targetdir    string
@@ -79,7 +79,8 @@ ExitCode : 0 `,
 			restClient := rest.New(rest.Config{Server: server})
 
 			if len(funcparam) > 0 {
-				funreq.RunParams = []string{funcparam}
+				fmt.Println(funcparam)
+				funreq.RunParams = funcparam
 			}
 			if len(url) > 0 {
 				funreq.SourceURL = url
@@ -112,17 +113,17 @@ ExitCode : 0 `,
 	server = viper.GetString("SERVER")
 	file = viper.GetString("FILE")
 	url = viper.GetString("URL")
-	funcparam = viper.GetString("FUNCPARAM")
+	//funcparam = viper.GetString("FUNCPARAM")
 
 	runCmd.Flags().StringVarP(&server, "server", "s", "http://localhost:8888", "Agent API server endpoint")
 	runCmd.Flags().StringVarP(&file, "file", "f", "", "Function local file: E.g. .test/helloworld.php")
 	runCmd.Flags().StringVarP(&url, "url", "u", "", "URL to dowload function file E.g https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D")
-	runCmd.Flags().StringVarP(&funcparam, "funcparam", "p", "", "Run time function parameters")
+	runCmd.Flags().StringSliceVarP(&funcparam, "funcparam", "p", []string{}, "Run time function parameters")
 
 	viper.BindPFlag("server", runCmd.Flags().Lookup("server"))
 	viper.BindPFlag("file", runCmd.Flags().Lookup("file"))
 	viper.BindPFlag("url", runCmd.Flags().Lookup("url"))
-	viper.BindPFlag("funcparam", runCmd.Flags().Lookup("funcparam"))
+	//viper.BindPFlag("funcparam", runCmd.Flags().Lookup("funcparam"))
 
 	return runCmd
 }
