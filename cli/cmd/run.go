@@ -58,6 +58,10 @@ Example:
 
 ./cli run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/toupper.go?token=AFQsZfMzSVPF4cvpV8doC05x9vydaIOsks5YEkbzwA%3D%3D --funcparam lower
 
+Example Cisco Functions:
+./cli run  -f testsource/spark.py  -p npateriya@gmail.com
+./cli run  -f testsource/tropo.py -p 1669777xxxx
+
 Example, running custom python based function:
 >>tee helloworld.py 
 print("hello world")
