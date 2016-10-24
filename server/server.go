@@ -21,6 +21,7 @@ func New() *Server {
 func (ref *Server) BuildServer() *negroni.Negroni {
 	muxRouter := mux.NewRouter()
 	router.Function(muxRouter)
+	router.HouseKeeping(muxRouter)
 	cor := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "OPTIONS", "DELETE", "CONNECT"},
