@@ -1,9 +1,10 @@
 package models
 
 type Function struct {
+	Name string `json:"name,omitempty"`
 	// This will detremine type of function like SOURCE_URL, SOURCE_BLOB,
 	// DOCKER_IMAGE, INBUILT etc
-	Type string `json:"type"`
+	Type string `json:"type,omitempty"`
 
 	// source file: This is final function file cached from url or
 	SourceFile string `json:"sourcefile,omitempty"`
@@ -15,7 +16,7 @@ type Function struct {
 	SourceBlob []byte `json:"sourceblob,omitempty"`
 
 	// Language identifier example golang, python, php etc
-	SourceLang string `json:"sourcelang, omitempty"`
+	SourceLang string `json:"sourcelang,omitempty"`
 
 	// Docker image which will be use to build execute functions
 	BaseImage string `json:"baseimage,omitempty"`
@@ -30,7 +31,7 @@ type Function struct {
 	IncludeDir []string `json:"includedir,omitempty"`
 
 	// Target Directory for mounting source & include
-	TargetDir string `json:"targetdir,omitempty`
+	TargetDir string `json:"targetdir,omitempty"`
 
 	// CacheDir: directory on docker host in which sourceblob/url will be cached.
 	CacheDir string `json:"cachedir,omitempty"`

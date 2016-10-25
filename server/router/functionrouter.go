@@ -6,9 +6,14 @@ import (
 )
 
 const (
-	FunctionRun = "/function"
+	FunctionRun  = "/function/{funcname}/run"
+	FunctionSave = "/function"
+	FunctionGet  = "/function/{funcname}"
 )
 
 func Function(muxRouter *mux.Router) {
-	muxRouter.HandleFunc(FunctionRun, controllers.RunContainer).Methods("POST")
+	muxRouter.HandleFunc(FunctionRun, controllers.RunFunction).Methods("POST")
+	muxRouter.HandleFunc(FunctionSave, controllers.SaveFunction).Methods("POST")
+	muxRouter.HandleFunc(FunctionGet, controllers.GetFunction).Methods("GET")
+
 }

@@ -53,7 +53,11 @@ func init() {
 	//	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cli.yaml)")
 	//	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	RootCmd.AddCommand(makeRunCommand())
+	funcCmd := makeFuncCommand()
+	RootCmd.AddCommand(funcCmd)
+	funcCmd.AddCommand(makeFuncSaveCommand())
+	funcCmd.AddCommand(makeFuncRunCommand())
+	funcCmd.AddCommand(makeFuncGetCommand())
 
 }
 

@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -69,4 +70,23 @@ func getFilename(urlstring string) (string, error) {
 		return "", err
 	}
 	return path.Base(u.Path), nil
+}
+
+func EncodeSlice(inmap []string) string {
+	mapbyte, err := json.Marshal(inmap)
+	if err != nil {
+		fmt.Errorf("%s", err.Error())
+	}
+	return string(mapbyte)
+}
+func DecodeToMap(mapstr string) []string {
+	var outmap []string
+	if mapstr == "" {
+		return outmap
+	}
+	err := json.Unmarshal([]byte(mapstr), &outmap)
+	if err != nil {
+		fmt.Errorf("%s", err.Error())
+	}
+	return outmap
 }

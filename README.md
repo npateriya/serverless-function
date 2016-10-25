@@ -29,63 +29,72 @@ make build
 
 ## Test
 ```
-User can run server les function, function can be dowloaded from a public url 
-or uploaded from local file. Example:
-./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D
-./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.py?token=AFQsZRl3aBnfjhRfw3lmxBB-bas0LtQyks5YEkaswA%3D%3D
-./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.go?token=AFQsZfRwyoQqlcMcKZhwjlNvTqR62MRSks5YEjPewA%3D%3D
-./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.js?token=AFQsZdzuufjXWtMuZZPpDrZ7Ae8Xn8jUks5YEkZtwA%3D%3D
-./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D
-
-
-
-./cli run --file testsource/helloworld.go
-./cli run --file testsource/helloworld.py
-./cli run --file testsource/helloworld.js
-./cli run --file testsource/helloworld.c
-
-
-./cli run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/toupper.go?token=AFQsZfMzSVPF4cvpV8doC05x9vydaIOsks5YEkbzwA%3D%3D --funcparam lower
-
-serverless cli enable running multiple language function like go, php, python 
-node etc.
+/cli function 
+User can save, list, get and run serverless function, function can implemented as code dowloaded from a public url or uploaded from local filesytem.
+It supports function written in most of language, including node, python, go,php, java, scala, perl, c, c++, bash etc.
 
 Usage:
-  cli run [flags]
+  cli function [command]
 
-Flags:
-  -f, --file string        Function local file: E.g. .test/helloworld.php
-  -p, --funcparam string   Run time function parameters
-  -s, --server string      Agent API server endpoint (default "http://localhost:8888")
-  -u, --url string         URL to dowload function file E.g https://raw.githubusercontent.com/docker-exec/dexec/master/.test/bats/fixtures/php/helloworld.php
+Available Commands:
+  get         Get serverless function
+  run         Run serverless function
+  save        Save serverless function
+
+Use "cli function [command] --help" for more information about a command.
 ```
 
-- Run source function from remote url
-```
-./cli  run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.js?token=AFQsZdzuufjXWtMuZZPpDrZ7Ae8Xn8jUks5YEkZtwA%3D%3D
+- Save functions
 
-Response from Function execuition:
-StdOut   : hello world
-StdErr   :  
-ExitCode : 0 
+```
+NeeleshP-ServelessDemo>>./cli function save -n hello-go-local --file testsource/helloworld.go
+Function details:
+Name   : hello-go-local
+Type   : FUNCTION_TYPE_BLOB 
+URL    :  
+Namespace: default
+
+NeeleshP-ServelessDemo>>./cli  function save -n hello-php-url -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D
+Function details:
+Name   : hello-php-url
+Type   : FUNCTION_TYPE_URL 
+URL    : https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D 
+Namespace: default
+
 ```
 
-- Run source function with parameters
-```
-./cli run -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/toupper.go?token=AFQsZfMzSVPF4cvpV8doC05x9vydaIOsks5YEkbzwA%3D%3D --funcparam lower
 
-Response from Function execuition:
-StdOut   : LOWER
-StdErr   :  
-ExitCode : 0 
-```
+- Run functions
 
-- Run source from local directory
 ```
-./cli run --file testsource/helloworld.go
-
+NeeleshP-ServelessDemo>>./cli function run -n hello-go-local
 Response from Function execuition:
 StdOut   : hello world cli
 StdErr   :  
 ExitCode : 0 
+
+NeeleshP-ServelessDemo>>./cli function run -n hello-php-url
+Response from Function execuition:
+StdOut   : hello world
+StdErr   :  
+ExitCode : 0 
+
+
+```
+
+- Get Function 
+
+```
+NeeleshP-ServelessDemo>>./cli function get -n hello-php-url
+Name   : hello-php-url
+Type   : FUNCTION_TYPE_URL 
+URL    : https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D 
+Namespace: default
+
+NeeleshP-ServelessDemo>>./cli function get -n hello-go-local
+Name   : hello-go-local
+Type   : FUNCTION_TYPE_BLOB 
+URL    :  
+Namespace: default
+
 ```
