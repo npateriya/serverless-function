@@ -41,8 +41,9 @@ var (
 func makeFuncCommand() *cobra.Command {
 
 	funcCmd := &cobra.Command{
-		Use:   "function [subcommand]",
-		Short: "Manage and Run Functions",
+		Use:     "function [subcommand]",
+		Short:   "Manage and Run Functions",
+		Aliases: []string{"func", "f"},
 		Long: `
 		
 User can save, list, get and run serverless function, function can implemented as code dowloaded from a public url or uploaded from local filesytem.
@@ -218,8 +219,9 @@ ExitCode : 0 `,
 
 func makeFuncGetCommand() *cobra.Command {
 	runCmd := &cobra.Command{
-		Use:   "get",
-		Short: "Get serverless function",
+		Use:     "get",
+		Short:   "Get serverless function",
+		Aliases: []string{"list"},
 		Long: `
 User can get serverless function, functions need to be added first using 'function save' command.
 
