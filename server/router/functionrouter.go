@@ -15,6 +15,7 @@ const (
 	FunctionAgentRun = "/agent/function/{funcname}/run"
 	FunctionSave     = "/function"
 	FunctionGet      = "/function/{funcname}"
+	FunctionList     = "/function"
 )
 
 func Function(muxRouter *mux.Router) {
@@ -22,5 +23,5 @@ func Function(muxRouter *mux.Router) {
 	muxRouter.HandleFunc(FunctionAgentRun, controllers.RunAgentFunction).Methods("POST")
 	muxRouter.HandleFunc(FunctionSave, controllers.SaveFunction).Methods("POST")
 	muxRouter.HandleFunc(FunctionGet, controllers.GetFunction).Methods("GET")
-
+	muxRouter.HandleFunc(FunctionList, controllers.ListFunction).Methods("GET")
 }

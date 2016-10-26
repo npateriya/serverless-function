@@ -99,6 +99,45 @@ func (ref *sqliteFunctionStore) GetFunctionByName(name string) *models.Function 
 	return &funcdata
 }
 
+func (ref *sqliteFunctionStore) ListFunction(namespace string) *[]models.Function {
+	var funclist []models.Function
+	var selectSqlStmt = `SELECT name, functype, sourcefile, 
+	sourceurl,sourceblob, sourcelang, 
+	baseimage, buildargs, runparams, 
+	includedir, cachedir, namespace , 
+	version 
+	FROM function WHERE namespace=?`
+	var argsstr, paramsstr, includedir string
+	if len(namespace) == 0 {
+		namespace = "default"
+	}
+
+	rows, err := ref.SQLDS.CDB.Query(selectSqlStmt, namespace)
+	if err != nil {
+		log.Printf("%q: %s\n", err, selectSqlStmt)
+	}
+	defer rows.Close()
+
+	var funcdata models.Function
+	for rows.Next() {
+		err = rows.Scan(
+			&funcdata.Name, &funcdata.Type, &funcdata.SourceFile,
+			&funcdata.SourceURL, &funcdata.SourceBlob, &funcdata.SourceLang,
+			&funcdata.BaseImage, &argsstr, &paramsstr,
+			&includedir, &funcdata.CacheDir, &funcdata.Namespace,
+			&funcdata.Version)
+		if err != nil {
+			log.Printf("%q: %s\n", err, selectSqlStmt)
+			return nil
+		}
+		funcdata.BuildArgs = utils.DecodeToMap(argsstr)
+		funcdata.RunParams = utils.DecodeToMap(paramsstr)
+		funcdata.IncludeDir = utils.DecodeToMap(includedir)
+		funclist = append(funclist, funcdata)
+	}
+	return &funclist
+}
+
 //func (ref *sqliteFunctionStore) GetFunctionList() []models.Function {
 
 //}

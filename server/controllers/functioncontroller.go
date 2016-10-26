@@ -114,3 +114,18 @@ func GetFunction(w http.ResponseWriter, r *http.Request) {
 	log.Println("GetFunction: end")
 
 }
+
+func ListFunction(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("ListFunction: start")
+
+	// This should come from context
+	var fds datastore.FunctionDataStore
+	fds = sqlitedatastore.NewsqliteFunctionStore()
+
+	// TODO add name space logic
+	funcdata := fds.ListFunction("")
+	ServeJsonResponse(w, &funcdata)
+	log.Println("ListFunction: end")
+
+}

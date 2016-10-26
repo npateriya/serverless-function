@@ -20,6 +20,7 @@ import (
 
 	"github.com/npateriya/serverless-agent/models"
 	"github.com/npateriya/serverless-agent/utils/rest"
+	"github.com/ryanuber/columnize"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -227,28 +228,33 @@ Example:
 ./cli function get  -n toupper-param-url --namespace default
 `,
 		Run: func(cmd *cobra.Command, args []string) {
+
 			path := "/function"
 			funreq := models.Function{}
 			funreq.Namespace = namespace
 			funreq.Name = funcname
-			funresp := models.Function{}
 
 			restClient := rest.New(rest.Config{Server: server})
 
 			//			if len(funreq.Name) == 0 {
 			//				fmt.Errorf("function name is required field")
 			//			}
-			path = fmt.Sprintf("%s/%s", path, funcname)
-			if len(funcparam) > 0 {
-				fmt.Println(funcparam)
-				funreq.RunParams = funcparam
+			if len(funcname) != 0 {
+				funresp := models.Function{}
+				path = fmt.Sprintf("%s/%s", path, funcname)
+				err := restClient.Get(path, nil, &funreq, &funresp)
+				if err != nil {
+					fmt.Errorf("%s\n", err)
+				}
+				printFunction(&funresp)
+			} else {
+				funresplist := []models.Function{}
+				err := restClient.Get(path, nil, &funreq, &funresplist)
+				if err != nil {
+					fmt.Errorf("%s\n", err)
+				}
+				printFunctionList(funresplist)
 			}
-			fmt.Printf("path: %s, funcname: %s, req %+v", path, funcname, funreq)
-			err := restClient.Get(path, nil, &funreq, &funresp)
-			if err != nil {
-				fmt.Errorf("%s\n", err)
-			}
-			printFunction(&funresp)
 		},
 	}
 
@@ -277,15 +283,24 @@ func printResponse(funresp *models.FunctionResponse) {
 	}
 }
 
-func printFunction(f *models.Function) {
-	if f != nil {
-		fmt.Printf("Function details:\n")
-		fmt.Printf("Name   : %s\n", f.Name)
-		fmt.Printf("Type   : %s \n", f.Type)
-		fmt.Printf("URL    : %s \n", f.SourceURL)
-		fmt.Printf("Namespace: %s\n", f.Namespace)
-	}
+func printFunction(funcdata *models.Function) {
+	funcarray := []string{"Name | NameSpace | Type | URL"}
+	var funcstr string
+	funcstr = fmt.Sprintf("%s| %s | %s | %s", funcdata.Name, funcdata.Namespace, funcdata.Type, funcdata.SourceURL)
+	funcarray = append(funcarray, funcstr)
+	result := columnize.SimpleFormat(funcarray)
+	fmt.Println(result)
 }
 
+func printFunctionList(flist []models.Function) {
+	funcarray := []string{"Name | NameSpace | Type | URL"}
+	var funcstr string
+	for _, funcdata := range flist {
+		funcstr = fmt.Sprintf("%s| %s | %s | %s", funcdata.Name, funcdata.Namespace, funcdata.Type, funcdata.SourceURL)
+		funcarray = append(funcarray, funcstr)
+	}
+	result := columnize.SimpleFormat(funcarray)
+	fmt.Println(result)
+}
 func init() {
 }

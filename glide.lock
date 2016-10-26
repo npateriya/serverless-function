@@ -1,5 +1,5 @@
-hash: 810ba2f7c95f93a9d394ac27c4a67e1d5a3e065b602eec723689cd30162af2d2
-updated: 2016-10-24T16:38:45.607960305-07:00
+hash: 981746aa67213391bba379381ee97cc400f23abc900938ed39ba07bbebf30183
+updated: 2016-10-26T12:19:42.097847666-07:00
 imports:
 - name: github.com/codegangsta/negroni
   version: 3f7ce7b928e14ff890b067e5bbbc80af73690a9c
@@ -80,6 +80,8 @@ imports:
   version: a62a804a8a009876ca59105f7899938a1349f4b3
 - name: github.com/rs/xhandler
   version: ed27b6fd65218132ee50cd95f38474a3d8a2cd12
+- name: github.com/ryanuber/columnize
+  version: 983d3a5fab1bf04d1b412465d2d9f8430e2e917e
 - name: github.com/Sirupsen/logrus
   version: 3ec0642a7fb6488f65b06f9040adc67e3990296a
 - name: github.com/spf13/afero
