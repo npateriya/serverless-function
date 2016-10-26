@@ -43,7 +43,35 @@ func RunFunction(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	}
 
+	//Lets check if function data passed asbody and it have extra param that
+	// need to be passed
+	decoder := json.NewDecoder(r.Body)
+	var function models.Function
+	err = decoder.Decode(&function)
+	if err == nil && len(function.RunParams) > 0 {
+		funcdata.RunParams = function.RunParams
+	}
 	resp := connectors.RunContainer(funcdata, client)
+	ServeJsonResponse(w, resp)
+
+}
+
+func RunAgentFunction(w http.ResponseWriter, r *http.Request) {
+
+	client, err := docker.NewClientFromEnv()
+	if err != nil {
+		http.Error(w, JsonErr(err), http.StatusInternalServerError)
+		return
+	}
+
+	decoder := json.NewDecoder(r.Body)
+	var function models.Function
+	err = decoder.Decode(&function)
+	if err != nil {
+		http.Error(w, JsonErr(err), http.StatusInternalServerError)
+		return
+	}
+	resp := connectors.RunContainer(&function, client)
 	ServeJsonResponse(w, resp)
 
 }
