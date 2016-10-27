@@ -17,6 +17,8 @@ const (
 	FunctionUpdate   = "/function"
 	FunctionGet      = "/function/{funcname}"
 	FunctionList     = "/function"
+	FunctionDelete   = "/function/{funcname}"
+	FunctionDeleteNS = "/function/{namespace}/{funcname}"
 )
 
 func Function(muxRouter *mux.Router) {
@@ -26,4 +28,7 @@ func Function(muxRouter *mux.Router) {
 	muxRouter.HandleFunc(FunctionUpdate, controllers.UpdateFunction).Methods("PUT")
 	muxRouter.HandleFunc(FunctionGet, controllers.GetFunction).Methods("GET")
 	muxRouter.HandleFunc(FunctionList, controllers.ListFunction).Methods("GET")
+	muxRouter.HandleFunc(FunctionDelete, controllers.DeleteFunction).Methods("DELETE")
+	muxRouter.HandleFunc(FunctionDeleteNS, controllers.DeleteFunctionNS).Methods("DELETE")
+
 }

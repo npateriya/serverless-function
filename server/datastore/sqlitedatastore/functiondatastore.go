@@ -179,13 +179,17 @@ func (ref *sqliteFunctionStore) UpdateFunction(funcdata *models.Function) {
 
 }
 
-//func (ref *sqliteFunctionStore) GetFunctionList() []models.Function {
+func (ref *sqliteFunctionStore) DeleteFunctionByName(funcname string, namespace string) {
+	var deleteSqlStmt = `DELETE FROM function WHERE name=? and namespace=? ;`
 
-//}
-//func (ref *sqliteFunctionStore) GetFunctionMap() map[string]models.Function {
-
-//}
-
-//func (ref *sqliteFunctionStore) DeleteFunctionByName(funcname string) {
-
-//}
+	stmt, err := ref.SQLDS.CDB.Prepare(deleteSqlStmt)
+	if err != nil {
+		log.Printf("%q: %s\n", err, deleteSqlStmt)
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(funcname, namespace)
+	if err != nil {
+		log.Printf("%q: %s\n", err, deleteSqlStmt)
+	}
+	return
+}

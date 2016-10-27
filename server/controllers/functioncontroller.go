@@ -173,3 +173,37 @@ func ListFunction(w http.ResponseWriter, r *http.Request) {
 	log.Println("ListFunction: end")
 
 }
+
+func DeleteFunction(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("DeleteFunction: start")
+
+	// This should come from context
+	var fds datastore.FunctionDataStore
+	fds = sqlitedatastore.NewsqliteFunctionStore()
+
+	vars := mux.Vars(r)
+	fname := vars["funcname"]
+	log.Println(fname)
+	fds.DeleteFunctionByName(fname, "default")
+	ServeJsonResponse(w, &fname)
+	log.Println("DeleteFunction: end")
+
+}
+func DeleteFunctionNS(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("DeleteFunction: start")
+
+	// This should come from context
+	var fds datastore.FunctionDataStore
+	fds = sqlitedatastore.NewsqliteFunctionStore()
+
+	vars := mux.Vars(r)
+	fname := vars["funcname"]
+	ns := vars["namespace"]
+
+	fds.DeleteFunctionByName(fname, ns)
+	ServeJsonResponse(w, &fname)
+	log.Println("DeleteFunction: end")
+
+}
