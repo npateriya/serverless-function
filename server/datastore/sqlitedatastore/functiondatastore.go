@@ -138,14 +138,51 @@ func (ref *sqliteFunctionStore) ListFunction(namespace string) *[]models.Functio
 	return &funclist
 }
 
+func (ref *sqliteFunctionStore) UpdateFunction(funcdata *models.Function) {
+	var upadteSqlStmt = `UPDATE function SET 
+		name=?, 
+		functype=?, 
+		sourcefile=?, 
+		sourceurl=?,
+		sourceblob=?, 
+		sourcelang=?, 
+		baseimage=?, 
+		buildargs=?, 
+		runparams=?, 
+		includedir=?, 
+		cachedir=?, 
+		namespace=?, 
+		version=?
+		WHERE name = ? and namespace =? ;`
+	argsstr := utils.EncodeSlice(funcdata.BuildArgs)
+	paramsstr := utils.EncodeSlice(funcdata.RunParams)
+	inludedir := utils.EncodeSlice(funcdata.IncludeDir)
+	if len(funcdata.Namespace) == 0 {
+		funcdata.Namespace = "default"
+	}
+
+	stmt, err := ref.SQLDS.CDB.Prepare(upadteSqlStmt)
+	if err != nil {
+		log.Printf("%q: %s\n", err, upadteSqlStmt)
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(&funcdata.Name, &funcdata.Type, &funcdata.SourceFile,
+		&funcdata.SourceURL, &funcdata.SourceBlob, &funcdata.SourceLang,
+		&funcdata.BaseImage, &argsstr, &paramsstr,
+		&inludedir, &funcdata.CacheDir, &funcdata.Namespace,
+		&funcdata.Version,
+		&funcdata.Name, &funcdata.Namespace)
+	if err != nil {
+		log.Printf("%q: %s\n", err, upadteSqlStmt)
+	}
+	return
+
+}
+
 //func (ref *sqliteFunctionStore) GetFunctionList() []models.Function {
 
 //}
 //func (ref *sqliteFunctionStore) GetFunctionMap() map[string]models.Function {
-
-//}
-
-//func (ref *sqliteFunctionStore) UpdateFunction(funcdata *models.Function) {
 
 //}
 

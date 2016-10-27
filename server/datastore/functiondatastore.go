@@ -9,6 +9,6 @@ type FunctionDataStore interface {
 	ListFunction(namespace string) *[]models.Function
 	//	GetFunctionMap() map[string]models.Function
 	SaveFunction(funcdata *models.Function)
-	//	UpdateFunction(funcdata *models.Function)
+	UpdateFunction(funcdata *models.Function)
 	//	DeleteFunctionByName(funcname string)
 }

@@ -14,6 +14,7 @@ const (
 	// need to pass complete populated function model
 	FunctionAgentRun = "/agent/function/{funcname}/run"
 	FunctionSave     = "/function"
+	FunctionUpdate   = "/function"
 	FunctionGet      = "/function/{funcname}"
 	FunctionList     = "/function"
 )
@@ -22,6 +23,7 @@ func Function(muxRouter *mux.Router) {
 	muxRouter.HandleFunc(FunctionRun, controllers.RunFunction).Methods("POST")
 	muxRouter.HandleFunc(FunctionAgentRun, controllers.RunAgentFunction).Methods("POST")
 	muxRouter.HandleFunc(FunctionSave, controllers.SaveFunction).Methods("POST")
+	muxRouter.HandleFunc(FunctionUpdate, controllers.UpdateFunction).Methods("PUT")
 	muxRouter.HandleFunc(FunctionGet, controllers.GetFunction).Methods("GET")
 	muxRouter.HandleFunc(FunctionList, controllers.ListFunction).Methods("GET")
 }
