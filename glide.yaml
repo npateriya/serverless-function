@@ -1,4 +1,4 @@
-package: github.com/npateriya/serverless-agent
+package: github.com/npateriya/serverless-function
 import:
 - package: github.com/docker-exec/dexec
   version: ^1.0.7

@@ -2,3 +2,4 @@ serverless-agent
 cli/cli
 .cache
 serverless.db
+serverless-function

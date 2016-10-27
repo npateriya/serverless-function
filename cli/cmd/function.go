@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/npateriya/serverless-agent/models"
-	"github.com/npateriya/serverless-agent/utils/rest"
+	"github.com/npateriya/serverless-function/models"
+	"github.com/npateriya/serverless-function/utils/rest"
 	"github.com/ryanuber/columnize"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -60,27 +60,23 @@ User can run serverless function, function can be dowloaded from a public url or
 It supports function written in most of language, including node, python, go,php, java, scala, perl, c, c++, bash etc. 
 
 Example:
-./cli  function save -n hello-php-url -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D
-./cli  function save -n hello-py-url  -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.py?token=AFQsZRl3aBnfjhRfw3lmxBB-bas0LtQyks5YEkaswA%3D%3D
-./cli  function save -n hello-go-url  -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.go?token=AFQsZfRwyoQqlcMcKZhwjlNvTqR62MRSks5YEjPewA%3D%3D
-./cli  function save -n hello-js-url  -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.js?token=AFQsZdzuufjXWtMuZZPpDrZ7Ae8Xn8jUks5YEkZtwA%3D%3D
-./cli  function save -n hello-c-url   -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D
 
 ./cli function save -n hello-go-local --file testsource/helloworld.go
 ./cli function save -n hello-py-local --file testsource/helloworld.py
 ./cli function save -n hello-js-local --file testsource/helloworld.js
 ./cli function save -n hello-c-local  --file testsource/helloworld.c
 
+./cli func save -n spark -f  testsource/spark.py
+./cli func save -n toupper -f  testsource/toupper.go
+./cli func save -n tropo -f testsource/tropo.py
 
-Example, running custom python based function:
->>tee helloworld.py 
-print("hello world")
+./cli  function save -n hello-php-url -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D
+./cli  function save -n hello-py-url  -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.py?token=AFQsZRl3aBnfjhRfw3lmxBB-bas0LtQyks5YEkaswA%3D%3D
+./cli  function save -n hello-go-url  -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.go?token=AFQsZfRwyoQqlcMcKZhwjlNvTqR62MRSks5YEjPewA%3D%3D
+./cli  function save -n hello-js-url  -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.js?token=AFQsZdzuufjXWtMuZZPpDrZ7Ae8Xn8jUks5YEkZtwA%3D%3D
+./cli  function save -n hello-c-url   -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D
 
->>./cli run -f hello.py
-Response from Function execuition:
-StdOut   : hello world
-StdErr   :  
-ExitCode : 0 `,
+ `,
 		Run: func(cmd *cobra.Command, args []string) {
 			path := "/function"
 			funreq := models.Function{}
@@ -203,6 +199,7 @@ ExitCode : 0 `,
 	server = viper.GetString("SERVER")
 	file = viper.GetString("FILE")
 	url = viper.GetString("URL")
+	server = viper.GetString("SERVER")
 
 	runCmd.Flags().StringVarP(&server, "server", "s", "http://localhost:8888", "Agent API server endpoint")
 	runCmd.Flags().StringVarP(&funcname, "funcname", "n", "", "Name of function")
@@ -212,8 +209,8 @@ ExitCode : 0 `,
 	viper.BindPFlag("server", runCmd.Flags().Lookup("server"))
 	viper.BindPFlag("funcname", runCmd.Flags().Lookup("funcname"))
 	viper.BindPFlag("namespce", runCmd.Flags().Lookup("namespace"))
-	//viper.BindPFlag("funcparam", runCmd.Flags().Lookup("funcparam"))
-
+	viper.BindPFlag("funcparam", runCmd.Flags().Lookup("funcparam"))
+	viper.BindEnv("server", "SERVER")
 	return runCmd
 }
 
@@ -260,11 +257,10 @@ Example:
 		},
 	}
 
-	server = viper.GetString("SERVER")
-
 	runCmd.Flags().StringVarP(&server, "server", "s", "http://localhost:8888", "Agent API server endpoint")
 	runCmd.Flags().StringVarP(&funcname, "funcname", "n", "", "Name of function")
 	runCmd.Flags().StringVarP(&namespace, "namespace", "x", "default", "Namespace( to add function")
+	server = viper.GetString("SERVER")
 
 	viper.BindPFlag("server", runCmd.Flags().Lookup("server"))
 	viper.BindPFlag("funcname", runCmd.Flags().Lookup("funcname"))

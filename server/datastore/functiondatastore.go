@@ -1,7 +1,7 @@
 package datastore
 
 import (
-	"github.com/npateriya/serverless-agent/models"
+	"github.com/npateriya/serverless-function/models"
 )
 
 type FunctionDataStore interface {

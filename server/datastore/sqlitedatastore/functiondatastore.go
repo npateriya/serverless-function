@@ -7,9 +7,9 @@ import (
 	//	"os"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/npateriya/serverless-agent/models"
-	"github.com/npateriya/serverless-agent/server/datastore"
-	"github.com/npateriya/serverless-agent/utils"
+	"github.com/npateriya/serverless-function/models"
+	"github.com/npateriya/serverless-function/server/datastore"
+	"github.com/npateriya/serverless-function/utils"
 )
 
 type sqliteFunctionStore struct {

@@ -14,7 +14,7 @@
 
 package main
 
-import "github.com/npateriya/serverless-agent/cli/cmd"
+import "github.com/npateriya/serverless-function/cli/cmd"
 
 func main() {
 	cmd.Execute()

@@ -13,8 +13,8 @@ import (
 	"github.com/docker-exec/dexec/dexec"
 	"github.com/docker-exec/dexec/util"
 	docker "github.com/fsouza/go-dockerclient"
-	"github.com/npateriya/serverless-agent/models"
-	"github.com/npateriya/serverless-agent/utils"
+	"github.com/npateriya/serverless-function/models"
+	"github.com/npateriya/serverless-function/utils"
 )
 
 func RunContainer(funcData *models.Function, client *docker.Client) models.FunctionResponse {

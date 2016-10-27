@@ -5,7 +5,7 @@ import (
 	"os"
 
 	docker "github.com/fsouza/go-dockerclient"
-	"github.com/npateriya/serverless-agent/server"
+	"github.com/npateriya/serverless-function/server"
 )
 
 func main() {

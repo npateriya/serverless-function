@@ -7,10 +7,10 @@ import (
 
 	docker "github.com/fsouza/go-dockerclient"
 	"github.com/gorilla/mux"
-	"github.com/npateriya/serverless-agent/models"
-	"github.com/npateriya/serverless-agent/server/connectors"
-	"github.com/npateriya/serverless-agent/server/datastore"
-	"github.com/npateriya/serverless-agent/server/datastore/sqlitedatastore"
+	"github.com/npateriya/serverless-function/models"
+	"github.com/npateriya/serverless-function/server/connectors"
+	"github.com/npateriya/serverless-function/server/datastore"
+	"github.com/npateriya/serverless-function/server/datastore/sqlitedatastore"
 )
 
 type Function []models.Function

@@ -6,7 +6,7 @@ import (
 
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
-	"github.com/npateriya/serverless-agent/server/router"
+	"github.com/npateriya/serverless-function/server/router"
 	"github.com/rs/cors"
 )
 

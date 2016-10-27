@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/npateriya/serverless-agent/server/controllers"
+	"github.com/npateriya/serverless-function/server/controllers"
 )
 
 const (
