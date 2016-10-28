@@ -82,7 +82,7 @@ Example:
 		Run: func(cmd *cobra.Command, args []string) {
 			path := "/function"
 			funreq := models.Function{}
-			funreq.CacheDir = ".cache" // TODO remove this
+			//funreq.CacheDir = ".cache" // TODO remove this
 			funreq.Namespace = namespace
 			funreq.Name = funcname
 			funresp := models.Function{}
@@ -178,7 +178,7 @@ ExitCode : 0 `,
 		Run: func(cmd *cobra.Command, args []string) {
 			path := "/function"
 			funreq := models.Function{}
-			funreq.CacheDir = ".cache" // TODO remove this
+			//funreq.CacheDir = ".cache" // TODO remove this
 			funreq.Namespace = namespace
 			funreq.Name = funcname
 			funresp := models.FunctionResponse{}
@@ -341,7 +341,7 @@ Example:
 		Run: func(cmd *cobra.Command, args []string) {
 			path := "/function"
 			funreq := models.Function{}
-			funreq.CacheDir = ".cache" // TODO remove this
+			//funreq.CacheDir = ".cache" // TODO remove this
 			funreq.Namespace = namespace
 			funreq.Name = funcname
 			funresp := models.Function{}

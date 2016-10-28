@@ -91,6 +91,9 @@ func SaveFunction(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, JsonErr(err), http.StatusInternalServerError)
 		return
 	}
+	if len(function.CacheDir) == 0 {
+		function.CacheDir = ".cache"
+	}
 	fds.SaveFunction(&function)
 	ServeJsonResponse(w, &function)
 }
