@@ -58,7 +58,7 @@ func init() {
 	funcCmd.AddCommand(makeFuncSaveCommand())
 	funcCmd.AddCommand(makeFuncRunCommand())
 	funcCmd.AddCommand(makeFuncGetCommand())
-
+	funcCmd.AddCommand(makeFuncDeleteCommand())
 }
 
 // initConfig reads in config file and ENV variables if set.

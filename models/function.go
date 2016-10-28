@@ -52,11 +52,13 @@ const (
 
 type FunctionResponse struct {
 	// Exit code of docker run
-	ExitCode int `json: "exitcode,omitempty`
+	ExitCode int `json: "exitcode,omitempty"`
 	// std out from container run
-	StdOut string `json: "stdout,omitempty`
+	StdOut string `json: "stdout,omitempty"`
 	// std err from container run
-	StdErr string `json: "stderr,omitempty`
+	StdErr string `json: "stderr,omitempty"`
 	// Error from connector
-	Error error `json:"stderr,omitempty`
+	Error error `json:"stderr,omitempty"`
+	// Message where above not relevant
+	Message string `json:"message,omitempty"`
 }

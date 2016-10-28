@@ -53,8 +53,9 @@ It supports function written in most of language, including node, python, go,php
 }
 func makeFuncSaveCommand() *cobra.Command {
 	saveCmd := &cobra.Command{
-		Use:   "save",
-		Short: "Save serverless function",
+		Use:     "save",
+		Short:   "Save serverless function",
+		Aliases: []string{"add", "a", "s"},
 		Long: `
 User can run serverless function, function can be dowloaded from a public url or uploaded from local filesytem.
 It supports function written in most of language, including node, python, go,php, java, scala, perl, c, c++, bash etc. 
@@ -144,8 +145,9 @@ Example:
 
 func makeFuncRunCommand() *cobra.Command {
 	runCmd := &cobra.Command{
-		Use:   "run",
-		Short: "Run serverless function",
+		Use:     "run",
+		Short:   "Run serverless function",
+		Aliases: []string{"invoke", "r", "i"},
 		Long: `
 User can run serverless function, functions executed need to be added first using 'function save' command.
 It supports function written in most of language, including node, python, go,php, java, scala, perl, c, c++, bash etc. 
@@ -218,7 +220,7 @@ func makeFuncGetCommand() *cobra.Command {
 	runCmd := &cobra.Command{
 		Use:     "get",
 		Short:   "Get serverless function",
-		Aliases: []string{"list"},
+		Aliases: []string{"list", "g", "l"},
 		Long: `
 User can get serverless function, functions need to be added first using 'function save' command.
 
@@ -269,14 +271,67 @@ Example:
 	return runCmd
 }
 
+func makeFuncDeleteCommand() *cobra.Command {
+	runCmd := &cobra.Command{
+		Use:     "delete",
+		Short:   "Delete serverless function",
+		Aliases: []string{"del", "d"},
+		Long: `
+User can delete serverless function, functions need to be added first using 'function save' command.
+
+Example:
+./cli function delete  -n toupper-param-url
+./cli function delete  -n toupper-param-url --namespace default
+`,
+		Run: func(cmd *cobra.Command, args []string) {
+
+			path := "/function"
+			funreq := models.Function{}
+			funreq.Namespace = namespace
+			funreq.Name = funcname
+
+			restClient := rest.New(rest.Config{Server: server})
+			if len(funcname) > 0 {
+				funresp := models.FunctionResponse{}
+				if len(namespace) > 0 {
+					path = fmt.Sprintf("%s/%s/%s", path, namespace, funcname)
+				} else {
+					path = fmt.Sprintf("%s/%s", path, funcname)
+				}
+				err := restClient.Delete(path, nil, &funreq, &funresp)
+				if err != nil {
+					fmt.Errorf("%s\n", err)
+				}
+				printResponse(&funresp)
+			} else {
+				fmt.Printf("Required parameter function name --name or -n missing\n")
+			}
+		},
+	}
+
+	runCmd.Flags().StringVarP(&server, "server", "s", "http://localhost:8888", "Agent API server endpoint")
+	runCmd.Flags().StringVarP(&funcname, "funcname", "n", "", "Name of function")
+	runCmd.Flags().StringVarP(&namespace, "namespace", "x", "default", "Namespace( to add function")
+	server = viper.GetString("SERVER")
+
+	viper.BindPFlag("server", runCmd.Flags().Lookup("server"))
+	viper.BindPFlag("funcname", runCmd.Flags().Lookup("funcname"))
+	viper.BindPFlag("namespce", runCmd.Flags().Lookup("namespace"))
+	return runCmd
+}
+
 func printResponse(funresp *models.FunctionResponse) {
 	if funresp != nil {
-		fmt.Printf("\nResponse from Function execuition:\n")
-		fmt.Printf("StdOut   : %s", funresp.StdOut)
-		fmt.Printf("StdErr   : %s \n", funresp.StdErr)
-		fmt.Printf("ExitCode : %d \n", funresp.ExitCode)
-		if funresp.Error != nil {
-			fmt.Printf("Error    :%s \n", funresp.Error)
+		if len(funresp.Message) > 0 {
+			fmt.Printf("Message: %s\n", funresp.Message)
+		} else {
+			fmt.Printf("\nResponse from Function execuition:\n")
+			fmt.Printf("StdOut   : %s", funresp.StdOut)
+			fmt.Printf("StdErr   : %s \n", funresp.StdErr)
+			fmt.Printf("ExitCode : %d \n", funresp.ExitCode)
+			if funresp.Error != nil {
+				fmt.Printf("Error    :%s \n", funresp.Error)
+			}
 		}
 	}
 }

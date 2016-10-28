@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -186,7 +187,10 @@ func DeleteFunction(w http.ResponseWriter, r *http.Request) {
 	fname := vars["funcname"]
 	log.Println(fname)
 	fds.DeleteFunctionByName(fname, "default")
-	ServeJsonResponse(w, &fname)
+
+	var funcresp models.FunctionResponse
+	funcresp.Message = fmt.Sprintf("Function delete default/%s", fname)
+	ServeJsonResponse(w, &funcresp)
 	log.Println("DeleteFunction: end")
 
 }
@@ -203,7 +207,9 @@ func DeleteFunctionNS(w http.ResponseWriter, r *http.Request) {
 	ns := vars["namespace"]
 
 	fds.DeleteFunctionByName(fname, ns)
-	ServeJsonResponse(w, &fname)
+	var funcresp models.FunctionResponse
+	funcresp.Message = fmt.Sprintf("Function delete %s/%s", ns, fname)
+	ServeJsonResponse(w, &funcresp)
 	log.Println("DeleteFunction: end")
 
 }
