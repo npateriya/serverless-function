@@ -36,6 +36,7 @@ var (
 	namespace    string
 	functiontype string
 	funcname     string
+	version      string
 )
 
 func makeFuncCommand() *cobra.Command {
@@ -131,12 +132,14 @@ Example:
 	saveCmd.Flags().StringVarP(&file, "file", "f", "", "Function local file: E.g. .test/helloworld.php")
 	saveCmd.Flags().StringVarP(&url, "url", "u", "", "URL to dowload function file E.g https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D")
 	saveCmd.Flags().StringSliceVarP(&funcparam, "funcparam", "p", []string{}, "Run time function parameters")
+	saveCmd.Flags().StringVarP(&version, "version", "v", "", "Version for function")
 
 	viper.BindPFlag("server", saveCmd.Flags().Lookup("server"))
 	viper.BindPFlag("file", saveCmd.Flags().Lookup("file"))
 	viper.BindPFlag("url", saveCmd.Flags().Lookup("url"))
 	viper.BindPFlag("funcname", saveCmd.Flags().Lookup("funcname"))
-	viper.BindPFlag("namespce", saveCmd.Flags().Lookup("namespace"))
+	viper.BindPFlag("namespace", saveCmd.Flags().Lookup("namespace"))
+	viper.BindPFlag("version", saveCmd.Flags().Lookup("version"))
 
 	//viper.BindPFlag("funcparam", saveCmd.Flags().Lookup("funcparam"))
 
@@ -318,6 +321,87 @@ Example:
 	viper.BindPFlag("funcname", runCmd.Flags().Lookup("funcname"))
 	viper.BindPFlag("namespce", runCmd.Flags().Lookup("namespace"))
 	return runCmd
+}
+
+func makeFuncUpdateCommand() *cobra.Command {
+	updateCmd := &cobra.Command{
+		Use:     "update",
+		Short:   "Update serverless function",
+		Aliases: []string{"u"},
+		Long: `
+User can updates serverless function, function can be updated by uploading modified file from local filesytem.
+
+Example:
+
+./cli function update -n hello-go-local --file testsource/helloworld.go
+./cli function update -n hello-go-local --namespace default --file testsource/helloworld.go
+
+./cli  function update -n hello-php-url -u https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.php?token=AFQsZXU2KxxgReBY5MOoGyimCEn8H58Rks5YEkaTwA%3D%3D
+ `,
+		Run: func(cmd *cobra.Command, args []string) {
+			path := "/function"
+			funreq := models.Function{}
+			funreq.CacheDir = ".cache" // TODO remove this
+			funreq.Namespace = namespace
+			funreq.Name = funcname
+			funresp := models.Function{}
+			restClient := rest.New(rest.Config{Server: server})
+
+			if len(funreq.Name) == 0 {
+				fmt.Errorf("function name is required field")
+
+			}
+			if len(funcparam) > 0 {
+				fmt.Println(funcparam)
+				funreq.RunParams = funcparam
+			}
+			if len(url) > 0 {
+				funreq.SourceURL = url
+				funreq.Type = models.FUNCTION_TYPE_URL
+				err := restClient.Put(path, nil, &funreq, &funresp)
+				if err != nil {
+					fmt.Errorf("%s\n", err)
+				}
+				printFunction(&funresp)
+			} else if len(file) > 0 {
+				funreq.Type = models.FUNCTION_TYPE_BLOB
+				srcBlob, err := ioutil.ReadFile(file)
+				if err != nil || len(srcBlob) == 0 {
+					fmt.Errorf("Unable to read file % err %s\n", file, err)
+				}
+				funreq.SourceBlob = srcBlob
+				funreq.SourceFile = file
+				err = restClient.Put(path, nil, &funreq, &funresp)
+				if err != nil {
+					fmt.Errorf("%s\n", err)
+				}
+				printFunction(&funresp)
+			} else {
+				fmt.Println("Either --url or --file is required.")
+			}
+
+		},
+	}
+
+	server = viper.GetString("SERVER")
+
+	updateCmd.Flags().StringVarP(&server, "server", "s", "http://localhost:8888", "Agent API server endpoint")
+	updateCmd.Flags().StringVarP(&funcname, "funcname", "n", "", "Name of function")
+	updateCmd.Flags().StringVarP(&namespace, "namespace", "x", "default", "Namespace( to add function")
+	updateCmd.Flags().StringVarP(&file, "file", "f", "", "Function local file: E.g. .test/helloworld.php")
+	updateCmd.Flags().StringVarP(&url, "url", "u", "", "URL to dowload function file E.g https://raw.githubusercontent.com/npateriya/serverless-agent/master/.test/helloworld.c?token=AFQsZaBEQJLO0ivNjWQx7uMUdb-afH33ks5YEkbMwA%3D%3D")
+	updateCmd.Flags().StringSliceVarP(&funcparam, "funcparam", "p", []string{}, "Run time function parameters")
+	updateCmd.Flags().StringVarP(&version, "version", "v", "", "Version for function")
+
+	viper.BindPFlag("server", updateCmd.Flags().Lookup("server"))
+	viper.BindPFlag("file", updateCmd.Flags().Lookup("file"))
+	viper.BindPFlag("url", updateCmd.Flags().Lookup("url"))
+	viper.BindPFlag("funcname", updateCmd.Flags().Lookup("funcname"))
+	viper.BindPFlag("namespace", updateCmd.Flags().Lookup("namespace"))
+	viper.BindPFlag("version", updateCmd.Flags().Lookup("version"))
+
+	//viper.BindPFlag("funcparam", updateCmd.Flags().Lookup("funcparam"))
+	return updateCmd
 }
 
 func printResponse(funresp *models.FunctionResponse) {
