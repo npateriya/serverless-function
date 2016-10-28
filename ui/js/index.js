@@ -14,6 +14,12 @@ function init() {
 var array;
 var currentIndex;
 
+var options = {
+    valueNames: ['name'],
+    item: '<li><h3 class="name"></h3></li>'
+};
+var functionList = new List('functions', options);
+
 function run() {
     $(document).ready(function() {
         $('#runButton').click(function() {
@@ -65,13 +71,11 @@ function loadItems() {
                 // });
             }
             console.log(data);
-            var options = {
-                valueNames: ['name'],
-                item: '<li><h3 class="name"></h3></li>'
-            };
+
             var values = data
             array = data
-            var functionList = new List('functions', options, values);
+            functionList.clear()
+            functionList = new List('functions', options, values);
 
         },
         error: function(request, error) {
