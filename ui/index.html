@@ -16,15 +16,17 @@
     <script src="js/heartcode-canvasloader.js"></script>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
-    <h1>Serverless</h2>
-    <input class="search" placeholder="Search" />
+    <h1 id="title">Serverless</h1>
 
-    <button class="sort" data-sort="name">
-      Sort by name
-    </button>
 
     <div class="wrapper">
+
         <div id="functions">
+          <!-- <input class="search" placeholder="Search" />
+
+          <button class="sort" data-sort="name">
+            Sort by name
+          </button> -->
             <ul class="list" id="listID"></ul>
         </div>
 
@@ -32,6 +34,9 @@
 
 
         <div id="editor"></div>
+        <input id="updateButton" type="button" value="Update Code" />
+        <div id="canvasloader-container2" class="loader"></div>
+
 
         <div id="run">
             <input id="runButton" type="button" value="Run &#9658;" />

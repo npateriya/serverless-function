@@ -3,23 +3,45 @@
     width: 100%;
 }
 
-body {}
+body {
 
+}
+
+#title{
+  font: 400 1.6rem/1.4 'source sans pro', 'helvetica neue', helvetica, arial;
+  /*color: #fff;*/
+
+}
 .list {
-    font-family: sans-serif;
+    /*font-family: sans-serif;*/
     margin: 0;
     padding: 0 0 0;
     width: 10%;
     display: table-cell;
+    /*background-color: #272822;*/
+    font-size: 16px;
+    font: 400 1.6rem/1.4 'source sans pro', 'helvetica neue', helvetica, arial;
     /*float: left;*/
 }
 
+.list>li {
+    display: inline;
+    padding: 10px 0;
+    border-top: solid 1px #eee;
+    /*background-color: #eee;*/
+    /*box-shadow: inset 0 1px 0 #fff;*/
+    cursor: pointer;
+    /*color: #fff;*/
+    font-size: 16px;
+    font: 400 1.6rem/1.4 'source sans pro', 'helvetica neue', helvetica, arial;
+}
+
 .loader {
-  display: inline-block;
+    display: inline-block;
 }
 
 .param {
-  display: block;
+    display: block;
 }
 
 #editor {
@@ -54,14 +76,31 @@ body {}
     background-color: #1b8aba;
 }
 
-.list>li {
-    display: inline;
-    /*background-color: #eee;*/
-    padding: 10px;
-    box-shadow: inset 0 1px 0 #fff;
-    cursor: pointer;
+#updateButton{
+  position: absolute;
+  right:    10;
+  bottom:   2px;
+
+  padding: 8px 30px;
+  border-radius: 6px;
+  border: none;
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  background-color: #28a8e0;
+  height: 30px;
 }
 
+#canvasloader-container2{
+  position: absolute;
+  right:    100px;
+  bottom:   10px;
+}
+
+#updateButton:hover {
+    text-decoration: none;
+    background-color: #1b8aba;
+}
 .avatar {
     max-width: 150px;
 }
@@ -153,25 +192,38 @@ input:focus {
     right: -5px;
 }
 
+
 /* The Modal (background) */
+
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    -webkit-animation-name: fadeIn; /* Fade in the background */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+    -webkit-animation-name: fadeIn;
+    /* Fade in the background */
     -webkit-animation-duration: 0.4s;
     animation-name: fadeIn;
     animation-duration: 0.4s
 }
 
+
 /* Modal Content */
+
 .modal-content {
     position: fixed;
     bottom: 0;
@@ -184,7 +236,9 @@ input:focus {
     animation-duration: 0.4s
 }
 
+
 /* The Close Button */
+
 .close {
     color: white;
     float: right;
@@ -192,8 +246,7 @@ input:focus {
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -205,7 +258,9 @@ input:focus {
     color: white;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {
+    padding: 2px 16px;
+}
 
 .modal-footer {
     padding: 2px 16px;
@@ -213,9 +268,24 @@ input:focus {
     color: white;
 }
 
-pre { }
-.string { color: green; }
-.number { color: darkorange; }
-.boolean { color: blue; }
-.null { color: magenta; }
-.key { color: red; }
+pre {}
+
+.string {
+    color: green;
+}
+
+.number {
+    color: darkorange;
+}
+
+.boolean {
+    color: blue;
+}
+
+.null {
+    color: magenta;
+}
+
+.key {
+    color: red;
+}
