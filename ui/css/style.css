@@ -91,6 +91,21 @@ body {
   height: 30px;
 }
 
+#createButton{
+  position: absolute;
+  right:    1%;
+  bottom:   2px;
+
+  padding: 8px 30px;
+  border-radius: 6px;
+  border: none;
+  display: inline-block;
+  color: lightGray;
+  text-decoration: none;
+  background-color: gray;
+  height: 30px;
+}
+
 #canvasloader-container2{
   position: absolute;
   right:    100px;

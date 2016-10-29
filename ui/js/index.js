@@ -8,7 +8,9 @@ function init() {
     addBtn();
     run();
     update();
+    newFile();
     modal();
+
 }
 
 var array;
@@ -19,6 +21,9 @@ var options = {
     item: '<li><h3 class="name"></h3></li>'
 };
 var functionList = new List('functions', options);
+
+var nameField = $('#nameFunction')
+var newFileName
 
 function run() {
     $(document).ready(function() {
@@ -47,6 +52,33 @@ function update() {
                 var modal = document.getElementById('myModal');
                 modal.style.display = "inline-block"
             }
+        });
+    });
+}
+
+function newFile() {
+    $(document).ready(function() {
+        $('#initFunction').click(function() {
+            if (nameField.val() != ""){
+            initFunction()
+            create()
+          } else {
+            alert("Please name file first.")
+          }
+        });
+    });
+}
+
+function create() {
+  // Set color
+  var create = document.getElementById('createButton');
+  create.style.color = "#fff"
+  create.style.backgroundColor = "#28a8e0"
+    $(document).ready(function() {
+        $('#createButton').click(function() {
+            createFunction()
+            create.style.color = "lightGray"
+            create.style.backgroundColor = "gray"
         });
     });
 }
@@ -192,6 +224,53 @@ function updateFunction(fileName) {
     });
 }
 
+function initFunction() {
+    newFileName = nameField.val()
+    nameField.val("")
+
+    editor.insert("Get started on your new function here, hit create function when done");
+    editor.gotoLine(0);
+    editor.focus();
+    editor.selectAll();
+}
+
+function createFunction() {
+
+    var stringToEncode = editor.getValue();
+    encodedString = btoa(stringToEncode);
+
+    console.log(encodedString);
+
+    name = newFileName.replace(/\\/g, '/');
+	  name = name.substring(name.lastIndexOf('/')+1, name.lastIndexOf('.'));
+
+  	console.log(name);
+    console.log(newFileName);
+
+    $.ajax({
+        url: "http://128.107.18.112:8888/function",
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify({
+            cachedir: ".cache",
+            name: name,
+            namespace: "default",
+            sourceblob: encodedString,
+            sourcefile: "testsource/"+ newFileName,
+            type: "FUNCTION_TYPE_BLOB"
+        }),
+        success: function(data) {
+            alert('Successfully created ' + newFileName);
+            loadItems()
+        },
+        error: function(request, error) {
+            alert("Error: " + JSON.stringify(request));
+            cl.hide(); // Hidden by default
+
+        }
+    });
+}
+
 
 
 function addBtn() {
@@ -201,10 +280,10 @@ function addBtn() {
         loadFile(index);
         currentIndex = index
 
-       $('ul li h3').css('color','black');
+        $('ul li h3').css('color', 'black');
         $(this).css({
-             "color":"gray"
-         });
+            "color": "gray"
+        });
     });
 }
 
