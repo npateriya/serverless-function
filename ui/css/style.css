@@ -3,15 +3,34 @@
     width: 100%;
 }
 
-body {
+head {
+  margin: 0;
+  padding: 0;
 
 }
 
-#title{
-  font: 400 1.6rem/1.4 'source sans pro', 'helvetica neue', helvetica, arial;
-  /*color: #fff;*/
-
+img {
+    display: block;
+    margin: 0 auto;
 }
+
+.container {
+    /*position:fixed;*/
+    margin: -8px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 60;
+    overflow: auto;
+    border-bottom: 1px solid light-gray;
+    background-color: #0097D6;
+}
+
+#title {
+    font: 400 1.6rem/1.4 'source sans pro', 'helvetica neue', helvetica, arial;
+    /*color: #fff;*/
+}
+
 .list {
     /*font-family: sans-serif;*/
     margin: 0;
@@ -54,10 +73,18 @@ body {
 
 #run {
     /*float: right;*/
-    display: table-cell;
+    table-layout: fixed;
+    /*display: table-cell;*/
     width: 20%;
     /*height: 400px;*/
     padding-top: 20;
+}
+
+span.string {
+    display:block;
+    width:100px;
+    /*word-wrap: normal;*/
+    word-break: break-all;
 }
 
 #runButton {
@@ -76,46 +103,46 @@ body {
     background-color: #1b8aba;
 }
 
-#updateButton{
-  position: absolute;
-  right:    10;
-  bottom:   2px;
-
-  padding: 8px 30px;
-  border-radius: 6px;
-  border: none;
-  display: inline-block;
-  color: #fff;
-  text-decoration: none;
-  background-color: #28a8e0;
-  height: 30px;
+#updateButton {
+    position: absolute;
+    right: 10;
+    bottom: 2px;
+    padding: 8px 30px;
+    border-radius: 6px;
+    border: none;
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    background-color: #28a8e0;
+    height: 30px;
 }
 
-#createButton{
-  position: absolute;
-  right:    1%;
-  bottom:   2px;
 
-  padding: 8px 30px;
-  border-radius: 6px;
-  border: none;
-  display: inline-block;
-  color: lightGray;
-  text-decoration: none;
-  background-color: gray;
-  height: 30px;
+#createButton {
+    position: absolute;
+    right: 1%;
+    bottom: 2px;
+    padding: 8px 30px;
+    border-radius: 6px;
+    border: none;
+    display: inline-block;
+    color: lightGray;
+    text-decoration: none;
+    background-color: gray;
+    height: 30px;
 }
 
-#canvasloader-container2{
-  position: absolute;
-  right:    100px;
-  bottom:   10px;
+#canvasloader-container2 {
+    position: absolute;
+    right: 100px;
+    bottom: 10px;
 }
 
 #updateButton:hover {
     text-decoration: none;
     background-color: #1b8aba;
 }
+
 .avatar {
     max-width: 150px;
 }

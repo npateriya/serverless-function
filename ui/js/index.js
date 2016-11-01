@@ -59,21 +59,21 @@ function update() {
 function newFile() {
     $(document).ready(function() {
         $('#initFunction').click(function() {
-            if (nameField.val() != ""){
-            initFunction()
-            create()
-          } else {
-            alert("Please name file first.")
-          }
+            if (nameField.val() != "") {
+                initFunction()
+                create()
+            } else {
+                alert("Please name file first.")
+            }
         });
     });
 }
 
 function create() {
-  // Set color
-  var create = document.getElementById('createButton');
-  create.style.color = "#fff"
-  create.style.backgroundColor = "#28a8e0"
+    // Set color
+    var create = document.getElementById('createButton');
+    create.style.color = "#fff"
+    create.style.backgroundColor = "#28a8e0"
     $(document).ready(function() {
         $('#createButton').click(function() {
             createFunction()
@@ -119,19 +119,22 @@ function loadItems() {
 function loadFile(index) {
     var editor = ace.edit("editor");
     var decodedString
+    editor.getSession().setOption("useWorker", false);
     editor.getSession().setMode("ace/mode/javascript");
+    editor.focus();
+
 
     if (array[index].type == "FUNCTION_TYPE_BLOB") {
         console.log(array[index].name);
         decodedString = atob(array[index].sourceblob);
-        editor.setValue(decodedString);
+        editor.setValue(decodedString, -1);
     } else {
         $.ajax({
             url: array[index].sourceurl,
             type: 'GET',
             success: function(data) {
                 decodedString = atob(data.sourceblob);
-                editor.setValue(decodedString);
+                editor.setValue(decodedString, -1);
                 console.log(decodedString);
             },
             error: function(request, error) {
@@ -242,9 +245,9 @@ function createFunction() {
     console.log(encodedString);
 
     name = newFileName.replace(/\\/g, '/');
-	  name = name.substring(name.lastIndexOf('/')+1, name.lastIndexOf('.'));
+    name = name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf('.'));
 
-  	console.log(name);
+    console.log(name);
     console.log(newFileName);
 
     $.ajax({
@@ -256,7 +259,7 @@ function createFunction() {
             name: name,
             namespace: "default",
             sourceblob: encodedString,
-            sourcefile: "testsource/"+ newFileName,
+            sourcefile: "testsource/" + newFileName,
             type: "FUNCTION_TYPE_BLOB"
         }),
         success: function(data) {
@@ -315,6 +318,13 @@ function output(inp) {
     var child = document.createElement('pre')
     child.setAttribute("id", "results");
     param2.appendChild(child).innerHTML = inp;
+
+    child.setAttribute("id", "results");
+    child.setAttribute("table-layout", "fixed");
+    child.style.setAttribute('width', '100px')
+    child.style.setAttribute('word-break', 'break-all')
+
+
 
 }
 

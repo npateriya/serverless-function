@@ -7,6 +7,10 @@
 
     <link rel="stylesheet" href="css/style.css">
 
+    <div class="container">
+        <img src="images/serverlesslogo.png" width="500" align="middle"  />
+    </div>
+
 </head>
 
 <body>
@@ -16,16 +20,17 @@
     <script src="js/heartcode-canvasloader.js"></script>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
-    <h1 id="title">Serverless</h1 style="display:'inline-block">
+
+
 
     <div class="wrapper">
 
         <div id="functions">
-          <input id="nameFunction" placeholder="function.go" />
-          <button id="initFunction">
+            <input id="nameFunction" placeholder="function.go" />
+            <button id="initFunction">
             New +
           </button>
-          <!-- <input class="search" placeholder="Search" />
+            <!-- <input class="search" placeholder="Search" />
 
           <button class="sort" data-sort="name">
             Sort by name
@@ -46,24 +51,24 @@
         <div id="run">
             <input id="runButton" type="button" value="Run &#9658;" />
 
-          	<div id="canvasloader-container" class="loader"></div>
-            <input class="param" type="text" name="txt" id="param1"/>
-            <input type="text" name="txt" id="param2"/>
+            <div id="canvasloader-container" class="loader"></div>
+            <input class="param" type="text" name="txt" id="param1" />
+            <input type="text" name="txt" id="param2" />
 
-              <!-- The Modal -->
+            <!-- The Modal -->
             <div id="myModal" class="modal">
 
-              <!-- Modal content -->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <span class="close">&times</span>
-                  <h2>Error</h2>
-                </div>
-                <div class="modal-body">
-                  <p>Please select a function first</p>
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times</span>
+                        <h2>Error</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please select a function first</p>
 
+                    </div>
                 </div>
-              </div>
 
             </div>
         </div>
