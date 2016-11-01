@@ -6,19 +6,21 @@ $(document).ready(function() {
 function init() {
     loadItems();
     addBtn();
+    addDeleteAction();
     run();
     update();
     newFile();
     modal();
-
 }
 
 var array;
 var currentIndex;
 
+var ip = "http://128.107.18.112:8888"
+
 var options = {
     valueNames: ['name'],
-    item: '<li><h3 class="name"></h3></li>'
+    item: '<li><h3 class="name"></h3> <button class="delete">Delete</button></li>'
 };
 var functionList = new List('functions', options);
 
@@ -91,7 +93,7 @@ function showPage() {
 
 function loadItems() {
     $.ajax({
-        url: "http://128.107.18.112:8888/function",
+        url: ip + "/function",
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -115,6 +117,8 @@ function loadItems() {
         }
     });
 }
+
+
 
 function loadFile(index) {
     var editor = ace.edit("editor");
@@ -155,7 +159,7 @@ function runFunction(fileName) {
 
     console.log(param1, param2);
     $.ajax({
-        url: "http://128.107.18.112:8888/function/" + fileName + "/run",
+        url: ip + "/function/" + fileName + "/run",
         type: 'POST',
         dataType: 'json',
         data: JSON.stringify({
@@ -199,7 +203,7 @@ function updateFunction(fileName) {
     encodedString = btoa(stringToEncode);
 
     $.ajax({
-        url: "http://128.107.18.112:8888/function",
+        url: ip + "/function",
         type: 'PUT',
         dataType: 'json',
         data: JSON.stringify({
@@ -251,7 +255,7 @@ function createFunction() {
     console.log(newFileName);
 
     $.ajax({
-        url: "http://128.107.18.112:8888/function",
+        url: ip + "/function",
         type: 'POST',
         dataType: 'json',
         data: JSON.stringify({
@@ -288,6 +292,35 @@ function addBtn() {
             "color": "gray"
         });
     });
+}
+
+function addDeleteAction() {
+    $('ul li button').live('click', function() {
+        var index = $(this).parent('li').index();
+        var result = confirm("Are you sure you want to delete " + array[index].name + "?");
+        if (result) {
+            //Logic to delete the item
+            deleteFunction(index)
+        }
+
+    });
+}
+
+function deleteFunction(index) {
+    console.log(array[index].name);
+    var functionToDelete = array[index].name
+    $.ajax({
+        url: ip + "/function/" + array[index].name,
+        type: 'DELETE',
+        success: function(data) {
+            alert("Successfully deleted: " + functionToDelete);
+            loadItems()
+        },
+        error: function(request, error) {
+            alert("Error: " + JSON.stringify(request));
+        }
+    });
+
 }
 
 function modal() {
