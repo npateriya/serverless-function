@@ -6,7 +6,7 @@ auth_header = {'Authorization':'Bearer YjFjMmQ2YTEtMzk2OC00YzVjLTk0NzItMzM0NTcwO
 if len(sys.argv) > 1 :
 	headers={}
 	headers["Content-type"] =  "application/json"
-	headers["Authorization"] = "Bearer YjFjMmQ2YTEtMzk2OC00YzVjLTk0NzItMzM0NTcwOWMxNjkyNDA5YzYyNWYtNTU5"
+	headers["Authorization"] = "Bearer MjE4ODhjOWUtNmI0ZS00M2Q1LWE0YWItNTc1YWJkYjIwNDcyZDllYzY5MDgtOGUw"
 	params={}
 	params["text"] = "Hello from Cisco serverless"
 	params["toPersonEmail"] = sys.argv[1]
