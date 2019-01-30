@@ -1,6 +1,11 @@
 # serverless
 Serverless agent that can execute functions written in multiple languages. 
-Serverless cli for triggering function execution.
+
+## Check out demo video
+[![Serverless Demo](https://img.youtube.com/vi/WJcc-YMq7mE/0.jpg)](https://youtu.be/WJcc-YMq7mE)
+
+
+### Demo: Serverless cli for triggering function execution.
 
 [![asciicast](https://asciinema.org/a/7uozu03v844frxn3xpnvxm53u.png)](https://asciinema.org/a/7uozu03v844frxn3xpnvxm53u)
 
